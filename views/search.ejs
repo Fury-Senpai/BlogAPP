@@ -1,0 +1,22 @@
+<div class="author flex flex-col items-center justify-start w-full px-4 py-10 bg-gray-100 min-h-screen">
+  <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-8 text-center">
+    Search Results
+  </h1>
+
+  <section class="w-full max-w-3xl">
+    <% if (data.length > 0) { %>
+      <ul class="space-y-4">
+        <% data.forEach(post => { %>
+          <li class="border rounded p-4 hover:bg-gray-50 transition">
+            <a href="/posts/<%= post._id %>" class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+              <span class="text-lg font-medium text-blue-700"><%= post.title %></span>
+              <span class="text-sm text-gray-500"><%= post.createdAt.toDateString() %></span>
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p class="text-gray-600 text-center text-lg">No results found 🔍</p>
+    <% } %>
+  </section>
+</div>
