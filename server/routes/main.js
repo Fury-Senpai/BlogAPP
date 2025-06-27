@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router();
 const postModel = require('../models/post');
 
-/* =============================== POST ROUTE =============================== */
+/* =============================== GET ROUTE =============================== */
 //home page
 router.get('/',async(req,res)=>{
     
@@ -43,20 +43,7 @@ router.get('/posts/:id',async (req,res)=>{
 
 /* =============================== POST ROUTE =============================== */
 
-//post create
-router.post('/postCreate',async (req,res)=>{
-    let {title,content} = req.body;
-    
-    const createPost = await postModel.create({
-        title,
-        content
-    })
 
-    res.status(201).json({
-        message:'success',
-        data:{createPost}
-    })
-})
 //search query
 router.post('/search',async (req,res)=>{
     try {
