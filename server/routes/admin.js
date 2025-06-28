@@ -10,7 +10,7 @@ const loginLayout = '../views/layouts/login';
 const adminLayout = '../views/layouts/admin';
 
 /* =============================== GET ROUTE =============================== */
-//home
+//login
  
 router.get('/login',async(req,res)=>{
     try{
@@ -21,6 +21,16 @@ router.get('/login',async(req,res)=>{
     }
 })
 
+//signup
+router.get('/signup',async(req,res)=>{
+    try{
+        res.render('admin/signup',{layout:loginLayout})
+    }
+    catch(error){
+        console.log(error );
+        
+    }
+})
 //admin panel
 router.get('/panel',isProtected,async(req,res)=>{
     try{
@@ -81,9 +91,13 @@ router.post('/login',async(req,res)=>{
             httpOnly:true,
         });
        
-        res.redirect('/panel');
-
-
+        //only admin signup
+        if(user.email == 'admin@owner.com'){
+            res.redirect('/panel');
+        }
+        else{
+            res.redirect('/');
+        }
 
         
     } catch (error) {
@@ -124,7 +138,7 @@ router.post('/admin/edit/:id',isProtected,async (req,res)=>{
             content:req.body.content,
             updatedAt:Date.now()
         }})
-
+ 
         res.redirect('/panel');
     } catch (error) {
         console.log(error);
@@ -139,8 +153,15 @@ router.post('/signup',async (req,res)=>{
         const createUser = await userModel.create({
             email,
             password:hashedPassword
-        })
-        res.send('done');
+        });
+        //jwt implement
+        const token = jwt.sign({email:createUser.email , userId:createUser._id},process.env.JWT_SECRET,{
+            expiresIn:'1d'
+        });
+
+        res.cookie('token',token);
+        
+        res.redirect('/');
     } catch (error) {
         console.log(error);
     }
