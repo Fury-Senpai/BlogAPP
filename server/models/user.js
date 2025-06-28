@@ -15,7 +15,12 @@ const userSchema = mongoose.Schema({
     posts:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Post'
-    }]
+    }],
+    role:{
+        type:String,
+        enum:['client','admin'],
+        default:'client'
+    }
 })
 
 
