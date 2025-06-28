@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router();
 const postModel = require('../models/post');
+const userModel = require('../models/user');
+const isProtected = require('../../middleware/isProtected');
 
 /* =============================== GET ROUTE =============================== */
 //home page
@@ -29,18 +31,43 @@ router.get('/',async(req,res)=>{
     }
 }); 
 //post 
-router.get('/posts/:id',async (req,res)=>{
-    
-    const post = await postModel.findOne({_id : req.params.id});
-    
+router.get('/posts/:id',isProtected,async (req,res)=>{
+    try {
+        const post = await postModel.findOne({_id : req.params.id});
+        
+        const user = await userModel.findOne({_id:req.user.userId});
+        
 
-    const locals = {
-        title: post.title
-    };
-
-    res.render('posts',{post,locals});
+        const locals = {
+            title: post.title
+        };
+    
+        res.render('posts',{post,locals,user});
+    } catch (error) {
+        console.log(error);
+    }
 })
+//like feature
+router.get('/like/:id',isProtected,async (req,res)=>{
+    try {
 
+        const post = await postModel.findOne({_id:req.params.id});
+        
+        if(post.likes.indexOf(req.user.userId) === -1){
+            post.likes.push(req.user.userId);
+        }
+        else{
+            post.likes.splice(post.likes.indexOf(req.user.userId),1);
+        }
+        await post.save();
+        
+        res.redirect(`/posts/${req.params.id}`)
+    } catch (error) {
+       console.log(error); 
+    }
+
+
+})
 /* =============================== POST ROUTE =============================== */
 
 
@@ -61,6 +88,9 @@ router.post('/search',async (req,res)=>{
       console.log(error);  
     }
 }) 
+
+
+
 
 
 module.exports = router;  

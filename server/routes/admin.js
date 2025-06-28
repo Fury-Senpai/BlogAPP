@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const userModel = require('../models/user');
 const postModel = require('../models/post');
-const cookieParser = require('cookie-parser');
+const isProtected = require('../../middleware/isProtected')
 //selecting layout
 const loginLayout = '../views/layouts/login';
 const adminLayout = '../views/layouts/admin';
@@ -160,8 +160,8 @@ router.post('/signup',async (req,res)=>{
         });
 
         res.cookie('token',token);
-        
-        res.redirect('/');
+
+        res.redirect('/afterSignup');
     } catch (error) {
         console.log(error);
     }
@@ -172,21 +172,6 @@ router.post('/logout',isProtected,(req,res)=>{
     res.clearCookie('token' );
     res.redirect('/login');
 })
-// protected route
-function isProtected(req,res,next){
-    const token = req.cookies.token;
-    if(!token){
-        return res.redirect('/login');
-    }
-    try{
-        const decoded = jwt.verify(token , process.env.JWT_SECRET);
-        req.user = decoded;
-        next();
-    }
-    catch(error){
-        console.log(error);
-        res.redirect('/login');
-    }
-}
+
 
 module.exports = router;

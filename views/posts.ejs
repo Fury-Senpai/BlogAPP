@@ -1,16 +1,28 @@
-
 <!-- Single Post Page -->
-<div class="max-w-4xl mx-auto px-4 py-10 ">
-  <article class="bg-zinc-100  shadow-md rounded-lg p-6">\
+<div class="max-w-4xl mx-auto px-4 py-10">
+  <article class="bg-zinc-100 shadow-md rounded-lg p-6 relative">
+
     <!-- Title -->
     <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 text-center">
-        <%= post.title %>
+      <%= post.title %>
     </h1>
+
+    
+
     <!-- Content -->
-    <p class="text-base text-justify text-gray-700 leading-relaxed whitespace-pre-line">
+    <p class="text-base text-justify text-gray-700 leading-relaxed whitespace-pre-line mt-4">
       <%= post.content %>
     </p>
+
+    <!-- Like Button (Top-Right Corner) -->
+    <a href="/like/<%=post._id%>">
+      <% if(post.likes.indexOf(user._id)===-1){ %>
+          <i id="likeBtn" class="far fa-heart pt-2 text-2xl text-zinc-200"></i>
+      <%}else{%>
+          <i id="likeBtn" class="fas fa-heart pt-2 text-2xl text-red-700"></i>
+      <%}%>
+    </a>
+  
+  </a>
   </article>
 </div>
-
-

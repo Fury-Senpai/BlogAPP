@@ -20,8 +20,10 @@ app.use(express.static(path.join(__dirname , 'public')));
 app.use(expressLayout);
 app.set('layout','./layouts/main')
 
+
 app.use('/',require('./server/routes/main'));
 app.use('/',require('./server/routes/admin'));
+
 
 app.listen(PORT,function(){
     console.log(`Server is running on port ${PORT}`);
