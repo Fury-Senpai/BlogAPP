@@ -28,8 +28,12 @@ router.get('/',async(req,res)=>{
     } 
     catch (error) {
         console.log(error);
-    }
-}); 
+    } 
+});  
+//about
+router.get('/about',(req,res)=>{
+    res.render('about');
+})
 //post 
 router.get('/posts/:id',isProtected,async (req,res)=>{
     try {

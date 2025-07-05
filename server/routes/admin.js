@@ -5,9 +5,11 @@ const jwt = require('jsonwebtoken');
 const userModel = require('../models/user');
 const postModel = require('../models/post');
 const isProtected = require('../../middleware/isProtected')
+const panelProtected = require('../../middleware/panelProtected');
 //selecting layout
 const loginLayout = '../views/layouts/login';
 const adminLayout = '../views/layouts/admin';
+
 
 /* =============================== GET ROUTE =============================== */
 //login
@@ -28,11 +30,11 @@ router.get('/signup',async(req,res)=>{
     }
     catch(error){
         console.log(error );
-        
+         
     }
 })
 //admin panel
-router.get('/panel',isProtected,async(req,res)=>{
+router.get('/panel',panelProtected,async(req,res)=>{
     try{
         const post = await postModel.find({user:req.user.userId}).sort({_id:-1})
         res.render('admin/panel',{layout:adminLayout , post:post})
@@ -161,7 +163,8 @@ router.post('/signup',async (req,res)=>{
 
         res.cookie('token',token);
 
-        res.redirect('/afterSignup');
+        res.redirect('/');
+
     } catch (error) {
         console.log(error);
     }
@@ -170,7 +173,7 @@ router.post('/signup',async (req,res)=>{
 //logout
 router.post('/logout',isProtected,(req,res)=>{
     res.clearCookie('token' );
-    res.redirect('/login');
+    res.redirect('/');
 })
 
 

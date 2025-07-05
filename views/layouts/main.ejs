@@ -10,10 +10,16 @@
 <body class="min-h-screen flex flex-col bg-gray-50 text-gray-800">
 
   <!-- Header -->
- 
+  <% if (!user) { %>
     <%- include('../partials/headers.ejs') %>
+  <% } else if(user.email === adminEmail) { %>
+      <%- include('../partials/admin_header.ejs') %>
+  <% } else{ %>
+      <%- include('../partials/loggedIn_headers.ejs') %>
+  <% } %>
 
   
+
 
   <!-- Main Content -->
   <main class="flex-grow"> 

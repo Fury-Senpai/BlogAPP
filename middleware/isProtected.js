@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 function isProtected(req,res,next){
     const token = req.cookies.token;
     if(!token){
+        req.user = null;
         return res.redirect('/login');
     }
     try{

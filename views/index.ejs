@@ -1,48 +1,48 @@
 <!-- Author Section -->
-<div class="author flex flex-col items-center justify-center min-h-screen w-full bg-gray-100 px-4 py-10 text-center">
-  <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Hi I am Nitish</h1>
-  <p class="text-xl md:text-2xl text-gray-600 mb-6">Web Developer</p>
+<section class="min-h-[calc(100vh-4rem)] bg-[#f3f4f6] w-full flex flex-col items-center justify-center px-4 pb-8 text-center pt-[3.5rem]">
 
-  <!-- Centered Image -->
-  <div class="flex justify-center w-full">
+  <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-2">Hi, I am Nitish</h1>
+  <p class="text-xl md:text-2xl text-gray-600 mb-8">Web Developer</p>
+
+  <!-- Developer Image -->
+  <div class="w-full flex justify-center">
     <img 
       src="/images/bg-home-dev.jpg" 
       alt="Developer at work" 
-      class="w-full max-w-3xl rounded-lg shadow-lg object-cover"
-    >
+      class="w-full max-w-3xl rounded-xl shadow-xl object-cover"
+    />
   </div>
-</div>
+</section>
 
 <!-- Articles Section -->
 <section class="w-full max-w-3xl mx-auto mt-16 px-4">
-  <h2 class="text-3xl font-semibold text-gray-800 mb-6 border-b pb-2 text-center sm:text-left">Latest Posts</h2>
-  
+  <h2 class="text-3xl font-semibold text-gray-800 mb-6 border-b pb-2 text-center sm:text-left">
+    Latest Posts
+  </h2>
+
+  <!-- Posts List -->
   <ul class="space-y-4">
-    <!-- Post 1 -->
     <% post.forEach(post => { %>
-      <li class="border rounded p-4 hover:bg-gray-50 transition">
-        <a href="/posts/<%=post._id%>" class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-          <span class="text-lg font-medium text-blue-700"><%=post.title%></span>
-          <span class="text-sm text-gray-500"><%=post.createdAt.toDateString()%></span>
+      <li class="border rounded-lg p-4 hover:bg-gray-50 transition-all">
+        <a href="/posts/<%= post._id %>" class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+          <span class="text-lg font-medium text-blue-700"><%= post.title %></span>
+          <span class="text-sm text-gray-500"><%= post.createdAt.toDateString() %></span>
         </a>
       </li>
     <% }) %>
-
-    <!-- Post 2 -->
   </ul>
 
   <!-- Pagination -->
-  <div class="mt-8 flex justify-between flex-row-reverse">
+  <div class="mt-10 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <% if (previousPage !== null) { %>
+      <a href="/?page=<%= previousPage %>" class="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1">
+        <span class="text-xl">&laquo;</span> View newer posts
+      </a>
+    <% } %>
     <% if (nextPage !== null) { %>
       <a href="/?page=<%= nextPage %>" class="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1">
         View older posts <span class="text-xl">&raquo;</span>
       </a>
     <% } %>
-    <% if (previousPage !== null) { %>
-      <a href="/?page=<%= previousPage %>" class="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1">
-        <span class="text-xl">&laquo;</span> View newer posts 
-      </a>
-    <% } %>
   </div>
 </section>
- 
