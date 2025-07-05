@@ -34,6 +34,10 @@ router.get('/',async(req,res)=>{
 router.get('/about',(req,res)=>{
     res.render('about');
 })
+
+router.get('/contact',(req,res)=>{
+    res.render('contact');
+})
 //post 
 router.get('/posts/:id',isProtected,async (req,res)=>{
     try {
